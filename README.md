@@ -26,18 +26,23 @@
 
 # 4. 본인 소개
 
-본인 소개를 추가하세요
 
-|이름 |고길동|![gdKO](/gdko.jpg)|
-|연락처 | gdko(@)kopo.ac.kr|
+![이해니](https://user-images.githubusercontent.com/77392444/135830781-118612ee-e240-435b-8f93-9fd6346e09f0.JPG) 
+
+|항목|내용|
+|-----|---------------------------|
+|이름 |이해니|
+|연락처 | haenyilee@kakao.com|
 |skill set| Frontend - HTML, CSS, Javascript|
 | | Backend - Java, Spring, Oracle|
-|자격증|  |
-|수상| |
-|특기사항|  TOEIC 990 |
+|자격증| 정보처리기사, SQLD |
+|수상| 제 5회 벤처창업아이템 경진대회(입선) |
+|특기사항| 新 HSK 6급, TOEIC 915, OPIC IH |
+
 
 # 5. 기타
 그외 프로젝트를 더욱 설명할수 있는 것들을 추가하세요
+
 
 # 홈페이지 설정
  본인 repository에서 "Setting"를 들어가서 GitHub Pages에서 설정 변경.
