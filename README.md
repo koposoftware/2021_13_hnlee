@@ -61,8 +61,8 @@
 
 ### 3.2 시연 영상 
 
-https://youtu.be/xFOyCcJzjWY
-https://youtu.be/rGADpRjmrC8
+- https://youtu.be/xFOyCcJzjWY
+- https://youtu.be/rGADpRjmrC8
 
 
 ## 4. 본인 소개
