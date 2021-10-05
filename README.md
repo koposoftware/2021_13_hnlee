@@ -5,7 +5,13 @@
 ## 1. 프로젝트 소개
 
 ### 1.1 프로젝트 개요
-- 해외직구 시, 어렵고 복잡하게 느껴지는 환율과 가늠하기 어려운 수수료를 한눈에 보기 쉽게 제공하는 서비스
+
+![image](https://user-images.githubusercontent.com/77392444/136090288-cf1909ac-ad56-4d8c-904c-e71d940e11f2.png)
+
+![image](https://user-images.githubusercontent.com/77392444/136090321-ed3b6293-2b5a-40e4-9bde-f91cc674d461.png)
+
+
+- 해외직구 시, 어렵고 복잡하게 느껴지는 환율과 가늠하기 어려운 수수료를 알기 쉽게 소비할 수 있는 서비스
 
 - 원화를 49개국 외화로 환전 후, 외화 수익률 조회 및 해외 직구 결제를 할 수 있는 선불 카드
 
@@ -28,6 +34,8 @@
 - Tool : Eclipse, Sql Developer, Postman, GitDesktop
 - DBMS : Oracle DBMS
 ```
+
+### 1.4 개발 일정
 
 
 ## 2. 프로젝트 제안서
@@ -99,5 +107,3 @@
 |수상         | 제 5회 벤처창업아이템 경진대회(입선) |
 |특기사항       | 新 HSK 6급, TOEIC 915, OPIC IH |
 
-
-## 5. 전체 코드
