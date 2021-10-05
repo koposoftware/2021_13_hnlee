@@ -41,15 +41,8 @@
 <details>
    <summary> <b>최종 PPT 상세보기</b> </summary>
    
-   ![제안서](/ppt/1.%20제안서/jpg/001.jpg)<br>
-   ![제안서](/ppt/1.%20제안서/jpg/002.jpg)<br>
-   ![제안서](/ppt/1.%20제안서/jpg/003.jpg)<br>
-   ![제안서](/ppt/1.%20제안서/jpg/004.jpg)<br>
-   ![제안서](/ppt/1.%20제안서/jpg/005.jpg)<br>
-   ![제안서](/ppt/1.%20제안서/jpg/006.jpg)<br>
-   ![제안서](/ppt/1.%20제안서/jpg/007.jpg)<br>  
-   ![제안서](/ppt/1.%20제안서/jpg/008.jpg)<br>   
-   ![제안서](/ppt/1.%20제안서/jpg/009.jpg)<br>   
+   ![001](https://user-images.githubusercontent.com/77392444/135976278-a180435e-72a9-4857-9831-6c82b8d2b391.jpg)
+
 </details>
 
 ### 3.2 시연 영상 
