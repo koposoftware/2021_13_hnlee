@@ -6,14 +6,30 @@
 
 ### 1.1 프로젝트 개요
 - 해외직구 시, 어렵고 복잡하게 느껴지는 환율과 가늠하기 어려운 수수료를 한눈에 보기 쉽게 제공하는 서비스
+
 - 원화를 49개국 외화로 환전 후, 외화 수익률 조회 및 해외 직구 결제를 할 수 있는 선불 카드
+
+
+### 1.2. 프로젝트 목적
+
+- Spring Frame Work를 활용한 자바 애플리케이션 개발
+
+- Spring Security를 활용한 스프링 기반의 애플리케이션의 보안(인증과 권한, 인가 등) 기능 적용
+
+- 오픈뱅킹 API를 활용한 Oauth 인증 방식 활용
+
 
 ### 1.2 개발 환경 
 - OS : Windows10
+
 - Framework : Spring(5.3.9), Maven, Flask
+
 - Server : tomcat9, Apache2, AWS RDS
+
 - Language :  JAVA, Javascript, Python
+
 - Tool : Eclipse, Sql Developer, Postman, GitDesktop
+
 - DBMS : Oracle DBMS
 
 
