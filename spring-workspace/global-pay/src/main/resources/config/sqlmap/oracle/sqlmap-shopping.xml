@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shopping.ShoppingDAO" >
+	<resultMap type="PayHistoryVO" id="PayHistoryMap">
+		<result column="NO" property="no" />
+		<result column="REG_DATE" property="regDate" />
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="FE_AMOUNT" property="feAmount" />
+		<result column="CARD_NO" property="cardNo" />
+		<result column="DISCOUNT_AMOUNT" property="discountAmount" />
+		<result column="PRODUCT_NO" property="productNo" />
+		<result column="after_balance" property="afterBalance" />
+		<collection property="productVO" resultMap="ProductMap" /> <!-- 조인한 테이블 -->
+	</resultMap>
+	<resultMap type="RegisterAlarmVO" id="RegisterAlarmMap">
+		<result column="no" property="no" />
+		<result column="reg_date" property="regDate" />
+		<result column="member_id" property="memberId" />
+		<result column="product_no" property="productNo" />
+		<result column="alarm_price" property="alarmPrice" />
+		<result column="alarm_rate" property="alarmRate" />
+		<result column="alarm_currency" property="alarmCurrency" />
+		<collection property="productVO" resultMap="ProductMap" />
+		<collection property="exchangeRateVO" resultMap="exchangeRateMap" />
+	</resultMap>
+	<resultMap type="ExchangeRateVO" id="exchangeRateMap">
+		<result column="NO" property="no" />
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="TRANSFER_SEND_RATE" property="transferSendRate" /> 		  
+		<result column="TRANSFER_RECEIVE_RATE" property="transferReceiveRate" /> 		  
+		<result column="BUY_BASIC_RATE" property="buyBasicRate" /> 		  
+		<result column="REG_DATE" property="regDate" /> 	
+		<collection property="nationCodeVO" resultMap="NationCodeMap" /> <!-- 조인한 테이블 -->			  
+	</resultMap>
+	<resultMap type="NationCodeVO" id="NationCodeMap">
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="CURRENCY_KR" property="currencyKr" />
+		<result column="NATION_KR" property="nationKr" /> 		  
+		<result column="NATION_EN" property="nationEn" /> 		  
+		<result column="NATION_EN_INITIAL" property="nationEnInitial" /> 		  
+		<result column="CURRENCY_CODE" property="currencyCode" /> 		  
+	</resultMap>
+	
+	
+	<resultMap type="FavouriteListVO" id="FavouriteListMap">
+		<result column="no" property="no" />
+		<result column="reg_date" property="regDate" />
+		<result column="member_id" property="memberId" />
+		<result column="product_no" property="productNo" />
+		<collection property="productVO" resultMap="ProductMap" />
+	</resultMap>
+
+	<resultMap type="DiscountVO" id="DiscountMap">
+		<result column="start_date" property="startDate" />
+		<result column="end_date" property="endDate" />
+		<result column="shop_code" property="shopCode" /> 		  
+		<result column="discount" property="discount" />
+		<result column="type" property="type" />  
+	</resultMap>
+	<resultMap type="PartnerShopVO" id="PartnerShopMap">
+		<result column="code" property="code" />
+		<result column="site" property="site" />
+		<result column="shop_name" property="shopName" /> 		  
+		<result column="currency_en" property="currencyEn" />
+		<result column="shop_reg_date" property="regDate" />  <!-- 컬럼명 겹쳐서 Alias한 컬럼 -->
+		<result column="nation_kr" property="nationKr" />
+	</resultMap>
+	<resultMap type="ProductVO" id="ProductMap">
+		<result column="no" property="no" />
+		<result column="url" property="url" />
+		<result column="img" property="img" />
+		<result column="brand" property="brand" />
+		<result column="name" property="name" />
+		<result column="price" property="price" />
+		<result column="currency" property="currency" />
+		<result column="reg_date" property="regDate" />
+		<result column="admin_id" property="adminId" />
+		<result column="seller_id" property="sellerId" />
+		<result column="shop_code" property="shopCode" />
+		<collection property="partnerShopVO" resultMap="PartnerShopMap" />
+		<collection property="discountVO" resultMap="DiscountMap" />
+	</resultMap>
+
+	<select id="selectAllProduct" resultMap="ProductMap">
+		select P.*, s.shop_name, s.reg_date as shop_reg_date
+		FROM PRODUCT P, partner_shop S
+		WHERE p.shop_code = s.code
+		and p.onsale = 'Y' order by p.reg_date desc
+	</select>
+	<select id="selectOneProduct" parameterType="int" resultMap="ProductMap">
+		select P.*, s.shop_name, s.reg_date as shop_reg_date, s.discount as discount, s.type as type
+		FROM PRODUCT P, (select * from discount d, partner_shop S where s.code = d.shop_code (+)) S
+		WHERE p.no = #{no} and p.shop_code = s.code
+		order by p.reg_date desc
+	</select>
+<!-- 	<select id="selectOneProduct" parameterType="int" resultMap="ProductMap">
+		select P.*, s.shop_name, s.reg_date as shop_reg_date, s.discount as discount, s.type as type
+		FROM PRODUCT P, (select * from discount d, partner_shop S where s.code = d.shop_code (+) and sysdate between d.start_date and d.end_date) S
+		WHERE p.no = #{no} and p.shop_code = s.code
+		order by p.reg_date desc
+	</select> -->
+	
+	<select id="selectByShop" parameterType="string" resultType="productVO">
+		SELECT * FROM PRODUCT P, partner_shop S
+		WHERE p.shop_code = s.code
+		AND shop_code in 
+		<foreach collection="shopCodes" item="code" open="(" close=")" separator="or">
+			#{code}
+		</foreach>
+	</select>
+	
+	
+	<insert id="addFavourite" parameterType="hashmap">
+		INSERT INTO favourite_list(no, member_id, product_no)
+    	VALUES(favourite_list_seq.nextval, #{id}, #{product} )
+	</insert>
+	
+	<delete id="delFavourite" parameterType="hashmap">
+		delete from favourite_list where member_id = #{memberId} and product_no = #{productNo}
+	</delete>
+	
+	<select id="countFavoiriteById" parameterType="hashmap" resultType="int">
+		select count(*) from favourite_list 
+		where member_id = #{id} and product_no= #{product}
+	</select>
+	
+	
+	<select id="selectAllFavoiriteById" parameterType="string" resultMap="FavouriteListMap">
+		select * from favourite_list f, product p, partner_shop s
+		where f.product_no = p.no 
+		and p.shop_code = s.code
+		and f.member_id = #{id}
+		order by f.reg_date desc
+	</select>
+	
+	<insert id="registerAlarm" parameterType="registerAlarmVO">
+		INSERT INTO alarm_list(
+	    	no, member_id, product_no, alarm_price, alarm_rate, alarm_currency
+	    ) VALUES( alarm_list_seq.nextval, #{memberId}, #{productNo}, #{alarmPrice}, #{alarmRate}, #{alarmCurrency} )
+	</insert>
+	
+	<select id="countAlarmById" parameterType="registerAlarmVO" resultType="int">
+		select count(*) from alarm_list 
+		where member_id = #{memberId} and product_no= #{productNo}
+	</select>
+	
+	<select id="selectAllAlarmById" parameterType="string" resultMap="RegisterAlarmMap">
+		select * from alarm_list a, product p, partner_shop s, exchange_rate e, nation_code n 
+		where e.currency_en = n.currency_en
+		and a.product_no = p.no 
+		and p.shop_code = s.code
+		and a.alarm_currency = e.currency_en
+		and e.reg_date = ((select max(reg_date) from exchange_rate))
+		and a.member_id = #{id}
+		order by a.reg_date desc
+	</select>
+	
+	<insert id="insertPayHistory" parameterType="payHistoryVO">
+		INSERT INTO pay_history(no ,currency_en,fe_amount,card_no,discount_amount,product_no, after_balance)
+		VALUES(pay_history_seq.nextval, #{currencyEn},#{feAmount},#{cardNo}, #{discountAmount}, #{productNo}, #{afterBalance} )
+	</insert>
+	
+	<select id="checkBalanceBeforeBuy" parameterType="hashmap" resultType="int">
+		select (b.balance - p.price)
+		from card_balance b, product p
+		where b.currency_en = p.currency
+			and p.no = #{productNo}
+			and b.card_no = #{cardNo}
+	</select>
+	
+	
+	
+	
+	<select id="selectPayHistoryById" parameterType="string" resultMap="PayHistoryMap">
+		select *
+		from pay_history h, product p, partner_shop s , card c
+		where h.card_no = c.card_no and h.product_no = p.no and p.shop_code = s.code and c.member_id = #{memberId}
+		order by h.reg_date desc
+	</select>
+	
+	
+</mapper>

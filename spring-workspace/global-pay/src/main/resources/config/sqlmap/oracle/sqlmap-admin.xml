@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin.AdminDAO" >
+	<resultMap type="ExchangeRateVO" id="exchangeRateMap">
+		<result column="NO" property="no" />
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="TRANSFER_SEND_RATE" property="transferSendRate" /> 		  
+		<result column="TRANSFER_RECEIVE_RATE" property="transferReceiveRate" /> 		  
+		<result column="BUY_BASIC_RATE" property="buyBasicRate" /> 		  
+		<result column="REG_DATE" property="regDate" /> 	
+		<collection property="nationCodeVO" resultMap="NationCodeMap" /> <!-- 조인한 테이블 -->			  
+	</resultMap>
+	<resultMap type="NationCodeVO" id="NationCodeMap">
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="CURRENCY_KR" property="currencyKr" />
+		<result column="NATION_KR" property="nationKr" /> 		  
+		<result column="NATION_EN" property="nationEn" /> 		  
+		<result column="NATION_EN_INITIAL" property="nationEnInitial" /> 		  
+		<result column="CURRENCY_CODE" property="currencyCode" /> 		  
+	</resultMap>
+	<insert id="register" parameterType="adminVO">
+		INSERT INTO admin(
+		    id, password, name, email, phone, type, dept, empno
+		)values(
+			#{id}, #{password}, #{name}, #{email}, #{phone}, #{type}, #{dept}, #{empno}
+		)
+	</insert>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(*) from admin where id = #{id}
+	</select>
+	
+	<select id="login" parameterType="memberVO" resultType="memberVO">
+		select id, password, name, authority from admin
+			where id = #{id}
+	</select>
+	
+	<select id="selectAllCurrency" resultMap="exchangeRateMap">
+		select * from exchange_rate e, nation_code n where e.currency_en = n.currency_en order by e.reg_date desc
+	</select>
+	
+	<select id="paylog" parameterType="hashmap" resultType="payDTO">
+		select p.*, c.*, m.id as id, m.name as member_name, t.name, t.price, s.shop_name as shopName, n.*
+		from pay_history p, card c, member m, product t, partner_shop s, nation_code n
+		where p.reg_date between to_date(#{startM}, 'yyyy-mm') and to_date(#{endM}, 'yyyy-mm') 
+		and p.card_no = c.card_no
+		and c.member_id = m.id
+		and p.product_no = t.no
+		and t.shop_code = s.code
+		and p.currency_en = n.currency_en
+		order by p.reg_date desc
+	</select>
+	
+	<select id="payFee" parameterType="hashmap" resultType="double">
+		select sum(fe_amount) * 0.025
+		from pay_history p, card c, member m, product t, partner_shop s, nation_code n
+		where p.reg_date between to_date('200001', 'yyyy-mm') and to_date('205012', 'yyyy-mm') 
+		and p.card_no = c.card_no
+		and c.member_id = m.id
+		and p.product_no = t.no
+		and t.shop_code = s.code
+		and p.currency_en = n.currency_en
+		order by p.reg_date desc
+	</select>
+	
+
+</mapper>

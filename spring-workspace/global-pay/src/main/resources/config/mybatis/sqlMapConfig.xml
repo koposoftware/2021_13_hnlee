@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		<setting name="returnInstanceForEmptyRow" value="true"/>
+	</settings>
+	<typeAliases>
+		<package name="kr.kro.globalpay.member.vo"/>
+		<package name="kr.kro.globalpay.currency.vo"/>
+		<package name="kr.kro.globalpay.card.vo"/>
+		<package name="kr.kro.globalpay.shopping.vo"/>
+		<package name="kr.kro.globalpay.admin.vo"/>
+		<package name="kr.kro.globalpay.partner.vo"/>
+		<package name="kr.kro.globalpay.openbank.vo"/>
+	</typeAliases>
+</configuration>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security.xsd">
+
+
+	<http pattern="/resources/**" security="none"/>
+
+	<http auto-config="true" use-expressions="true">
+		
+		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/jwt/**" access="permitAll" />
+		<intercept-url pattern="/myHandler" access="permitAll" />
+		<intercept-url pattern="/login" access="isAnonymous()" /> <!-- 로그인 안한 사용자만 가능 -->
+		<intercept-url pattern="/join" access="isAnonymous()" />
+
+		<intercept-url pattern="/member/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN', 'ROLE_CARD')" /> <!-- 이 권한둘 중 한가지만 가지고 있으면 접근가능 -->
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/partner/**" access="hasRole('ROLE_PARTNER')" />
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_PARTNER','ROLE_ADMIN', 'ROLE_CARD')" />
+		
+		<form-login 
+			username-parameter="id" 
+			password-parameter="password"
+			login-page="/login"
+			login-processing-url="/login"
+			authentication-failure-handler-ref="userLoginFailHandler"
+			authentication-success-handler-ref="userLoginSuccessHandler"
+		/>
+		<logout logout-url="/logout" logout-success-url="/" invalidate-session="true" delete-cookies="true"/>
+		<access-denied-handler error-page="/loginError"/>
+		<csrf disabled="true" />
+		<custom-filter ref="requestContextFilter" before="FORM_LOGIN_FILTER"></custom-filter>
+	</http>
+	
+
+
+	<!-- xml 내부에 사용자 등록 provider -->
+	<!-- <authentication-manager>
+		<authentication-provider>
+			<password-encoder ref="bcryptPasswordEncoder"/>
+			<user-service>
+				<user name="user" password="$2a$10$Gkr61IXH0YI/.Yh5T6fzteGLCLT6nOmMkID/DmFhWtPmu1WwPrDKq" authorities="ROLE_USER" />
+				<user name="admin" password="$2a$10$Gkr61IXH0YI/.Yh5T6fzteGLCLT6nOmMkID/DmFhWtPmu1WwPrDKq" authorities="ROLE_ADMIN" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager> -->
+	
+	
+	<!-- db에서 사용자 정보 확인provider -->
+	<authentication-manager>
+		<authentication-provider ref="userLoginAuthenticationProvider">
+		</authentication-provider>
+	</authentication-manager>
+
+	<!-- 암호화 -->
+	<beans:bean id="bcryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
+		
+	<!-- db 로그인 정보 연동 -->
+	<beans:bean id="userLoginAuthenticationProvider"
+		class="kr.kro.globalpay.security.service.UserLoginAuthenticationProvider" />
+		
+	<!-- 로그인 실패 처리  -->	
+	<beans:bean id="userLoginFailHandler"
+		class="kr.kro.globalpay.security.service.UserLoginFailHandler" />
+	<!-- 로그인 성공 처리 -->
+	<beans:bean id="userLoginSuccessHandler"
+		class="kr.kro.globalpay.security.service.UserLoginSuccessHandler" />
+
+	<beans:bean id="requestContextFilter" class="org.springframework.web.filter.RequestContextFilter"/>
+	
+	<beans:bean id="egovStrictHttpFirewall" class="org.springframework.security.web.firewall.StrictHttpFirewall">
+		<beans:property name="allowUrlEncodedSlash" value="true"/>
+	</beans:bean>
+	
+</beans:beans>

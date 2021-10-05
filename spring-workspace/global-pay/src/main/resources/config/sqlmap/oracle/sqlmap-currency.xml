@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="currency.CurrencyDAO" >
+
+	<resultMap type="registerAlarmVO" id="registerAlarmMap">
+		<result column="no" property="no" />	
+		<result column="regDate" property="regDate" />	
+		<result column="memberId" property="memberId" />	
+		<result column="alarmPrice" property="alarmPrice" />	
+		<result column="alarmRate" property="alarmRate" />	
+		<result column="alarmCurrency" property="alarmCurrency" />	
+		<collection property="memberVO" resultMap="memberMap" /> <!-- 조인한 테이블 -->			  
+	</resultMap>
+	<resultMap type="memberVO" id="memberMap">
+		<result column="ID" property="id" />		  
+		<result column="NAME" property="name" />		  
+		<result column="email" property="email" />		  
+		<result column="phone" property="phone" />		  
+		<result column="authority" property="authority" />		  
+	</resultMap>
+	
+	<resultMap type="ExchangeRateVO" id="exchangeRateMap">
+		<result column="NO" property="no" />
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="TRANSFER_SEND_RATE" property="transferSendRate" /> 		  
+		<result column="TRANSFER_RECEIVE_RATE" property="transferReceiveRate" /> 		  
+		<result column="BUY_BASIC_RATE" property="buyBasicRate" /> 		  
+		<result column="REG_DATE" property="regDate" /> 	
+		<collection property="nationCodeVO" resultMap="NationCodeMap" /> <!-- 조인한 테이블 -->			  
+	</resultMap>
+	<resultMap type="NationCodeVO" id="NationCodeMap">
+		<result column="CURRENCY_EN" property="currencyEn" />
+		<result column="CURRENCY_KR" property="currencyKr" />
+		<result column="NATION_KR" property="nationKr" /> 		  
+		<result column="NATION_EN" property="nationEn" /> 		  
+		<result column="NATION_EN_INITIAL" property="nationEnInitial" /> 		  
+		<result column="CURRENCY_CODE" property="currencyCode" /> 		  
+	</resultMap>
+
+	
+	<select id="nationAll" resultType="nationCodeVO">
+		select * from nation_code
+	</select>
+	
+	<select id="selectByNation" parameterType="String" resultMap="exchangeRateMap">
+		select * from exchange_rate e, nation_code n where e.currency_en = n.currency_en and e.currency_en = #{currencyEn} order by e.reg_date
+	</select>
+
+	<select id="selectAllCurRate" resultMap="exchangeRateMap">
+		select * from exchange_rate e, nation_code n where e.currency_en = n.currency_en
+		and e.reg_date = (select max(reg_date) from exchange_rate)
+	</select>
+
+	<select id="selectCurRate" parameterType="String" resultMap="exchangeRateMap">
+		select * from exchange_rate e, nation_code n 
+		where e.currency_en = n.currency_en
+		and e.currency_en = #{currencyEn} 
+		and e.reg_date = (select max(reg_date) from exchange_rate)
+	</select>
+	
+	<select id="selectAccounts" parameterType="String" resultType="openbankAccountVO">
+		SELECT O.* FROM openbank_account O, CARD C
+			WHERE C.MEMBER_ID = #{id}
+			AND O.CARD_NO = C.CARD_NO
+	</select>
+	
+	<update id="updateAccountBalance" parameterType="openbankAccountVO">
+		update openbank_account set balance = balance + #{krAmount}
+		where account_bank = #{accountBank}
+		and account_num = #{accountNum}
+	</update>
+	
+	<update id="updateCardBalance" parameterType="cardBalanceVO">
+		update card_balance set balance = balance + #{feAmount}
+		where card_no = #{cardNo}
+		and currency_en = #{currencyEn}
+	</update>
+	
+	<insert id="insertCharge" parameterType="chargeHistoryVO">
+		INSERT INTO charge_history(
+		    no
+		    , account_num
+		    , account_bank
+		    , currency_en
+		    , kr_amount
+		    , card_no
+		    , exchange_rate
+		    , exchange_code
+		    ,fe_amount
+		    , after_balance
+		    , without_commission
+		    , commission_kr
+		) values(
+		    charge_history_seq.nextval
+		    , #{accountNum}
+		    , #{accountBank}
+		    , #{currencyEn}
+		    , #{krAmount}
+		    , #{cardNo}
+		    , #{exchangeRate}
+		    , #{exchangeCode}
+		    , #{feAmount}
+		    , #{afterBalance}
+		    , #{withoutCommission}
+		    , #{commissionKr}
+		)
+	</insert>
+	
+	<insert id="insertRefund" parameterType="refundHistoryVO">
+		INSERT INTO refund_history(
+		    no
+		    , account_num
+		    , account_bank
+		    , currency_en
+		    , kr_amount
+		    , card_no
+		    , exchange_rate
+		    , exchange_code
+		    ,fe_amount
+		    , after_balance
+		    , without_commission
+		    , commission_kr
+		) values(
+		    refund_history_seq.nextval
+		    , #{accountNum}
+		    , #{accountBank}
+		    , #{currencyEn}
+		    , #{krAmount}
+		    , #{cardNo}
+		    , #{exchangeRate}
+		    , #{exchangeCode}
+		    , #{feAmount}
+		    , #{afterBalance}
+		    , #{withoutCommission}
+		    , #{commissionKr}
+		)
+	</insert>
+	
+	<insert id="insertCurRates" parameterType="java.util.List">
+		INSERT INTO exchange_rate(
+			no
+			, nation_kr
+			, currency_en
+			, transfer_send_rate
+			, transfer_receive_rate
+			, buy_basic_rate
+			, usd_change_rate
+			, cash_Buy_Rate
+			, cash_Sell_Rate
+			, cash_Buy_Spread
+			, cash_Sell_Spread
+			, transfer_Commission
+			, tc_Buy_Rate
+			, foreign_Check_Sell_Rate
+    	) select exchange_rate_seq.nextval, A.* from(
+		<foreach item="item" index="index" collection="list" separator="UNION ALL ">
+			SELECT 
+				#{item.nationKr} as nation_Kr
+				, #{item.currencyEn} as currency_En
+				, #{item.transferSendRate} as transfer_Send_Rate
+				, #{item.transferReceiveRate} as transfer_Receive_Rate
+				, #{item.buyBasicRate} as buy_Basic_Rate
+				, #{item.usdChangeRate} as usd_Change_Rate
+				, #{item.cashBuyRate} as cash_Buy_Rate
+				, #{item.cashSellRate} as cash_Sell_Rate
+				, #{item.cashBuySpread} as cash_Buy_Spread
+				, #{item.cashSellSpread} as cash_Sell_Spread
+				, #{item.transferCommission} as transfer_Commission
+				, #{item.tcBuyRate} as tc_Buy_Rate
+				, #{item.foreignCheckSellRate} as foreign_Check_Sell_Rate
+			FROM DUAL
+		</foreach>) A
+	</insert>
+	
+	<select id="alarmTarget" parameterType="hashmap" resultMap="registerAlarmMap">
+		select * 
+			from alarm_list a, member m 
+			where a.member_id = m.id and alarm_rate >= #{rate} and a.alarm_currency = #{currency}
+	</select>
+	
+	
+<!-- 	<insert id="insertCurRates" parameterType="exchangeRateVO">
+		INSERT INTO exchange_rate(
+			no
+			, nation_kr
+			, currency_en
+			, transfer_send_rate
+			, transfer_receive_rate
+			, buy_basic_rate
+			, usd_change_rate
+			, cash_Buy_Rate
+			, cash_Sell_Rate
+			, cash_Buy_Spread
+			, cash_Sell_Spread
+			, transfer_Commission
+			, tc_Buy_Rate
+			, foreign_Check_Sell_Rate
+    	) 
+		VALUES(
+			exchange_rate_seq.nextval
+			, #{nationKr}
+			, #{currencyEn}
+			, #{transferSendRate}
+			, #{transferReceiveRate} 
+			, #{buyBasicRate}
+			, #{usdChangeRate} 
+			, #{cashBuyRate} 
+			, #{cashSellRate} 
+			, #{cashBuySpread} 
+			, #{cashSellSpread} 
+			, #{transferCommission} 
+			, #{tcBuyRate} 
+			, #{foreignCheckSellRate} 
+		)
+	</insert> -->
+<!-- 	<insert id="insertCurRates" parameterType="exchangeRateVO">
+		INSERT INTO exchange_rate(
+			no
+			, nation_kr
+			, currency_en
+			, transfer_send_rate
+			, transfer_receive_rate
+			, buy_basic_rate
+			, usd_change_rate) 
+		VALUES(
+			exchange_rate_seq.nextval
+			, #{nationKr}
+			, #{currencyEn}
+			, #{transferSendRate}
+			, #{transferReceiveRate} 
+			, #{buyBasicRate}
+			, #{usdChangeRate} 
+		)
+	</insert> -->
+	
+	
+</mapper>

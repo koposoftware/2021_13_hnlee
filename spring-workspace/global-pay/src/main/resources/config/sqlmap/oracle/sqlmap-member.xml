@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member.MemberDAO" >
+	<!-- 컬럼과 vo의 매핑코드 -->
+	<resultMap type="kr.kro.globalpay.member.vo.MemberVO" id="memberMap">
+		<result column="reg_date" property="regDate"/>
+	</resultMap>
+
+	<insert id="join" parameterType="memberVO">
+		insert into member(
+		    id, password, name, email, phone, authority, type
+		)values(
+			#{id}, #{password}, #{name}, #{email}, #{phone}
+			, #{authority}, #{type}
+		)
+	</insert>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(*) from member where id = #{id}
+	</select>
+	
+	<select id="login" parameterType="memberVO" resultType="memberVO">
+		select id, password, name, authority from member
+			where id = #{id}
+	</select>
+	
+	<update id="updateRole" parameterType="memberVO">
+		update member set authority = #{authority} where id = #{id }
+	</update>
+
+
+
+</mapper>

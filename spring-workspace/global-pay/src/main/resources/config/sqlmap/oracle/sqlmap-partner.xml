@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="partner.PartnerDAO" >
+	<resultMap type="partnerVO" id="partnerMap">
+		<result column="ID" property="id" />
+		<result column="TEAM" property="team" />
+		<result column="SHOP_CODE" property="shopCode" /> 		  
+		<collection property="memberVO" resultMap="memberMap" /> <!-- 조인한 테이블 -->			  
+		<collection property="partnerShopVO" resultMap="partnerShopMap" /> <!-- 조인한 테이블 -->			  
+	</resultMap>
+	<resultMap type="memberVO" id="memberMap">
+		<result column="ID" property="id" />		  
+		<result column="NAME" property="name" />		  
+	</resultMap>
+	<resultMap type="partnerShopVO" id="partnerShopMap">
+		<result column="SITE" property="site" />
+		<result column="SHOP_NAME" property="shopName" />
+		<result column="REG_DATE" property="regDate" /> 		  
+		<result column="CURRENCY_EN" property="currencyEn" /> 		  
+		<result column="NATION_KR" property="nationKr" /> 		  
+		<result column="CODE" property="code" /> 		  
+	</resultMap>
+	
+	<select id="selectAllPartner" resultMap="partnerMap">
+		select * from member m, partner p, partner_shop s
+		where m.id = p.id
+		and p.shop_code = s.code
+	</select>
+	
+	<select id="selectOnePartner" parameterType="string" resultMap="partnerMap">
+		select * from member m, partner p, partner_shop s
+		where m.id = #{memberId}
+		and m.id = p.id
+		and p.shop_code = s.code
+	</select>
+	
+	<insert id="insertProductOne" parameterType="productVO">
+		INSERT INTO product(
+		    no, url, img, brand, name, price, currency, seller_id, shop_code
+		) VALUES(
+			product_seq.nextval
+			, #{url}
+			, #{img}
+			, #{brand}
+			, #{name}
+			, #{price}
+			, #{currency}
+			, #{sellerId}
+			, #{shopCode}
+		)
+	</insert>
+	<insert id="insertProductMass" parameterType="java.util.List">
+		INSERT INTO product(no, url, img, brand, name, price, currency, seller_id, shop_code)
+		select product_seq.nextval, A.* from(
+		<foreach item="item" index="index" collection="list" separator="UNION ALL ">
+		SELECT 
+			#{item.url} as url
+			, #{item.img} as img
+			, #{item.brand} as brand
+			, #{item.name} as name
+			, #{item.price} as price
+			, #{item.currency} as currency
+			, #{item.sellerId} as seller_id
+			, #{item.shopCode} as shop_code
+		FROM DUAL
+		</foreach>) A
+	</insert>
+
+
+
+
+</mapper>

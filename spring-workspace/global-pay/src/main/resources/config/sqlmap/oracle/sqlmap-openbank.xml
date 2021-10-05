@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="openbank.OpenbankDAO" >
+
+	<select id="checkBeforeInsertAuth" parameterType="openbankAuthVO" resultType="int">
+		select count(*) from openbank_auth where id = #{id} and access_token = #{accessToken }
+	</select>
+
+	<insert id="insertAuth" parameterType="openbankAuthVO">
+		INSERT INTO openbank_auth(id, access_token, refresh_token, user_seq_no, expires_in, token_type, scope)
+    	VALUES(#{id}, #{accessToken}, #{refreshToken}, #{userSeqNo}, #{expiresIn}, #{tokenType}, #{scope})
+	</insert>
+	
+	<select id="selectAuth" parameterType="string" resultType="openbankAuthVO">
+		select * from openbank_auth where id = #{id}
+	</select>
+<!-- 	<select id="selectACNT" parameterType="string" resultType="openbankAuthVO">
+		select * from openbank_auth where FI = #{id}
+	</select>
+	<select id="selectBALANCE" parameterType="string" resultType="openbankAuthVO">
+		select * from openbank_auth where id = #{id}
+	</select> -->
+	
+	
+	<insert id="insertACNT" parameterType="openbankAcntVO">
+		INSERT INTO openbank_acnt( 
+			id
+		    fintech_use_num,
+		    account_alias,
+		    bank_code_std,
+		    bank_code_sub,
+		    bank_name,
+		    account_num,
+		    account_num_masked,
+		    account_holder_name,
+		    account_holder_type,
+		    acount_type,
+		    inquiry_agree_yn,
+		    inquiry_agree_dtime
+		) VALUES(
+			#{id}
+		    , #{fintechUseNum}
+		    , #{accountAlias}
+		    , #{bankCodeStd}
+		    , #{bankCodeSub}
+		    , #{bankName}
+		    , #{accountNum}
+		    , #{accountNumMasked}
+		    , #{accountHolderName}
+		    , #{accountHolderType}
+		    , #{acountType}
+		    , #{inquiryAgreeYn}
+		    , #{inquiryAgreeDtime}
+		)
+	</insert>
+	
+	
+	<insert id="insertBalance" parameterType="openbankBalanceVO">
+		INSERT INTO openbank_balance(
+		    api_tran_id,
+		    api_tran_dtm,
+		    rsp_code,
+		    rsp_message,
+		    bank_tran_id,
+		    bank_tran_date,
+		    bank_code_tran,
+		    bank_rsp_code,
+		    bank_rsp_message,
+		    bank_name,
+		    savings_bank_name,
+		    fintech_use_num,
+		    balance_amt,
+		    available_amt,
+		    account_type,
+		    product_name,
+		    account_issue_date,
+		    maturity_date,
+		    last_tran_date
+		) VALUES( 
+		    , #{apiTranId},
+		    , #{apiTranDtm},
+		    , #{rspCode},
+		    , #{rspMessage},
+		    , #{bankTranId},
+		    , #{bankTranDate},
+		    , #{bankCodeTran},
+		    , #{bankRspCode},
+		    , #{bankRspMessage},
+		    , #{bankName},
+		    , #{savingsBankName},
+		    , #{fintechUseNum},
+		    , #{balanceAmt},
+		    , #{availableAmt},
+		    , #{accountType},
+		    , #{productName},
+		    , #{accountIssueDate},
+		    , #{maturityDate},
+		    , #{lastTranDate}
+		)
+	</insert>
+	
+	
+	
+	<update id="mergeACNT" parameterType="java.util.List">
+	    BEGIN
+	    <foreach collection="list" item="item" separator=" ">
+	    MERGE INTO openbank_acnt    
+	        USING fintech_use_num ON
+	        (
+	            fintech_use_num = #{item.fintechUseNum}	
+	        ) 
+	        WHEN NOT MATCHED THEN    
+	            INSERT INTO openbank_acnt( 
+	                id
+	                fintech_use_num,
+	                account_alias,
+	                bank_code_std,
+	                bank_code_sub,
+	                bank_name,
+	                account_num,
+	                account_num_masked,
+	                account_holder_name,
+	                account_holder_type,
+	                acount_type,
+	                inquiry_agree_yn,
+	                inquiry_agree_dtime
+	            ) VALUES(
+	                #{item.id}
+	                , #{item.fintechUseNum}
+	                , #{item.accountAlias}
+	                , #{item.bankCodeStd}
+	                , #{item.bankCodeSub}
+	                , #{item.bankName}
+	                , #{item.accountNum}
+	                , #{item.accountNumMasked}
+	                , #{item.item.accountHolderName}
+	                , #{item.accountHolderType}
+	                , #{item.acountType}
+	                , #{item.inquiryAgreeYn}
+	                , #{item.inquiryAgreeDtime}
+	            )
+	    </foreach>
+	    END;
+	</update>
+	
+	
+	<update id="mergeBalance" parameterType="java.util.List">
+	    BEGIN
+	    <foreach collection="list" item="item" separator=" ">
+	    MERGE INTO openbank_balance    
+	        USING fintech_use_num ON
+	        (
+	            fintech_use_num = #{item.fintechUseNum}	
+	        ) 
+	        WHEN NOT MATCHED THEN    
+				INSERT INTO openbank_balance(
+				    api_tran_id,
+				    api_tran_dtm,
+				    rsp_code,
+				    rsp_message,
+				    bank_tran_id,
+				    bank_tran_date,
+				    bank_code_tran,
+				    bank_rsp_code,
+				    bank_rsp_message,
+				    bank_name,
+				    savings_bank_name,
+				    fintech_use_num,
+				    balance_amt,
+				    available_amt,
+				    account_type,
+				    product_name,
+				    account_issue_date,
+				    maturity_date,
+				    last_tran_date
+				) VALUES( 
+				    , #{apiTranId},
+				    , #{apiTranDtm},
+				    , #{rspCode},
+				    , #{rspMessage},
+				    , #{bankTranId},
+				    , #{bankTranDate},
+				    , #{bankCodeTran},
+				    , #{bankRspCode},
+				    , #{bankRspMessage},
+				    , #{bankName},
+				    , #{savingsBankName},
+				    , #{fintechUseNum},
+				    , #{balanceAmt},
+				    , #{availableAmt},
+				    , #{accountType},
+				    , #{productName},
+				    , #{accountIssueDate},
+				    , #{maturityDate},
+				    , #{lastTranDate}
+				)
+	    </foreach>
+	    END;
+	</update>
+	
+	
+	
+
+</mapper>
