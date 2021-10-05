@@ -19,7 +19,7 @@
 3) 오픈뱅킹 API를 활용한 Oauth 인증 방식 활용
 
 
-### 1.2 개발 환경 
+### 1.3 개발 환경 
 
 ```
 - OS : Windows10
@@ -61,6 +61,8 @@
 
 ### 3.2 시연 영상 
 
+https://youtu.be/xFOyCcJzjWY
+https://youtu.be/rGADpRjmrC8
 
 
 ## 4. 본인 소개
