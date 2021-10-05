@@ -34,16 +34,15 @@
 
 <details>
    <summary> <b>제안서 상세보기</b> </summary>
-
-   ![제안서](./ppt/1.%20제안서/jpg/001.jpg)<br>
-   ![제안서](./ppt/1.%20제안서/jpg/002.jpg)<br>
-   ![제안서](./ppt/1.%20제안서/jpg/003.jpg)<br>
-   ![제안서](./ppt/1.%20제안서/jpg/004.jpg)<br>
-   ![제안서](./ppt/1.%20제안서/jpg/005.jpg)<br>
-   ![제안서](./ppt/1.%20제안서/jpg/006.jpg)<br>
-   ![제안서](./ppt/1.%20제안서/jpg/007.jpg)<br>  
-   ![제안서](./ppt/1.%20제안서/jpg/008.jpg)<br>   
-   ![제안서](./ppt/1.%20제안서/jpg/009.jpg)<br>   
+   <img src="./ppt/1.%20제안서/jpg/001.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/002.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/003.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/004.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/005.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/006.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/007.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/008.jpg"/> <br>
+   <img src="./ppt/1.%20제안서/jpg/009.jpg"/> <br>   
 </details>
 
 ## 3. 프로젝트 산출물
@@ -53,9 +52,29 @@
 
 <details>
    <summary> <b>최종 PPT 상세보기</b> </summary>
-   
-   <img src="https://user-images.githubusercontent.com/77392444/135976278-a180435e-72a9-4857-9831-6c82b8d2b391.jpg"/> <br>
-   ![001](https://user-images.githubusercontent.com/77392444/135976278-a180435e-72a9-4857-9831-6c82b8d2b391.jpg)
+   <img src="./ppt/2.%20최종발표/jpg/001.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/002.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/003.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/004.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/005.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/006.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/007.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/008.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/009.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/010.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/011.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/012.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/013.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/014.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/015.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/016.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/017.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/018.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/019.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/020.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/021.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/022.jpg"/> <br>
+   <img src="./ppt/2.%20최종발표/jpg/023.jpg"/> <br>
 
 </details>
 
@@ -63,6 +82,7 @@
 
 - https://youtu.be/xFOyCcJzjWY
 - https://youtu.be/rGADpRjmrC8
+- https://youtu.be/6X_wQ_mf1OE
 
 
 ## 4. 본인 소개
@@ -80,5 +100,4 @@
 |특기사항       | 新 HSK 6급, TOEIC 915, OPIC IH |
 
 
-## 5. 기타
-
+## 5. 전체 코드
