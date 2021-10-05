@@ -12,25 +12,22 @@
 
 ### 1.2. 프로젝트 목적
 
-- Spring Frame Work를 활용한 자바 애플리케이션 개발
+1) Spring Frame Work를 활용한 자바 애플리케이션 개발
 
-- Spring Security를 활용한 스프링 기반의 애플리케이션의 보안(인증과 권한, 인가 등) 기능 적용
+2) Spring Security를 활용한 스프링 기반의 애플리케이션의 보안(인증과 권한, 인가 등) 기능 적용
 
-- 오픈뱅킹 API를 활용한 Oauth 인증 방식 활용
+3) 오픈뱅킹 API를 활용한 Oauth 인증 방식 활용
 
 
 ### 1.2 개발 환경 
+
+```
 - OS : Windows10
-
 - Framework : Spring(5.3.9), Maven, Flask
-
 - Server : tomcat9, Apache2, AWS RDS
-
-- Language :  JAVA, Javascript, Python
-
 - Tool : Eclipse, Sql Developer, Postman, GitDesktop
-
 - DBMS : Oracle DBMS
+```
 
 
 ## 2. 프로젝트 제안서
