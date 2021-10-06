@@ -1,6 +1,6 @@
 # 하나 글로벌 페이
 
-[**하나 글로벌 홈페이지**](https://koposoftware.github.io/2021_13_hnlee/)
+[**하나 글로벌 페이 홈페이지**](https://koposoftware.github.io/2021_13_hnlee/)
 
 ## 1. 프로젝트 소개
 
@@ -122,3 +122,11 @@
 ## 5. 참고
 
 [JWT Token 암호화 의문점](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ithink3366&logNo=221371733904)
+
+
+## 6. 피드백
+
+1. Bcryt 암호화에 대해서 설명하시오. salt키에 담은 내용이 탈취될 위험이 있는가? 
+2. JWT 토큰에 담은 데이터와 갱신주기, 토큰 만료 시 처리 방법에 대해 설명하시오.
+3. 다양한 인증 보안을 구현한 이유가 무엇인가?
+4. 상품 등록을 판매자가 직접 하는 구조인가?
