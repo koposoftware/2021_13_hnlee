@@ -118,3 +118,7 @@
 |수상         | 제 5회 벤처창업아이템 경진대회(입선) |
 |특기사항       | 新 HSK 6급, TOEIC 915, OPIC IH |
 
+
+## 5. 참고
+
+[JWT Token 암호화 의문점](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ithink3366&logNo=221371733904)
