@@ -6,10 +6,7 @@
 
 ### 1.1 프로젝트 개요
 
-![image](https://user-images.githubusercontent.com/77392444/136090288-cf1909ac-ad56-4d8c-904c-e71d940e11f2.png)
-
-![image](https://user-images.githubusercontent.com/77392444/136090321-ed3b6293-2b5a-40e4-9bde-f91cc674d461.png)
-
+![image](https://user-images.githubusercontent.com/77392444/136130211-6b36fff5-d25a-44f2-bea6-2844695ac54b.png)
 
 - 해외직구 시, 어렵고 복잡하게 느껴지는 환율과 가늠하기 어려운 수수료를 알기 쉽게 소비할 수 있는 서비스
 
@@ -36,6 +33,9 @@
 ```
 
 ### 1.4 개발 일정
+
+![image](https://user-images.githubusercontent.com/77392444/136130150-33343e10-42eb-4122-8b52-cecd442e354f.png)
+
 
 
 ## 2. 프로젝트 제안서
@@ -91,6 +91,17 @@
 - https://youtu.be/xFOyCcJzjWY
 - https://youtu.be/rGADpRjmrC8
 - https://youtu.be/6X_wQ_mf1OE
+
+
+### 3.3 ERD
+
+![image](https://user-images.githubusercontent.com/77392444/136130287-36eb552a-f685-4fac-9f7b-302f03711a9c.png)
+
+
+### 3.4 시스템 아키텍처
+
+![image](https://user-images.githubusercontent.com/77392444/136130188-6d89b1f6-863d-427e-b9ac-bac955ad6655.png)
+
 
 
 ## 4. 본인 소개
